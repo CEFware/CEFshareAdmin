@@ -7,8 +7,16 @@ Router.route('/stripe', function () {
     this.request.query['user_id']=str.slice(str.indexOf('/')+1, str.indexOf('http'));
     this.request.query.state=str.substr(0, str.indexOf('/'));
 
-//console.log(str.substr(str.indexOf('http'),str.length+1));
-//console.log(    HTTP.get(str.substr(str.indexOf('http'),str.length+1), {params: this.request.query, headers: this.request.headers}));
-    HTTP.get(str.substr(str.indexOf('http'),str.length+1), {params: this.request.query});
+    var newurl=str.substr(str.indexOf('http'),str.length+1);
+    if ((newurl.match(/.cefware.com/g) || []).length>1)
+        newurl.replace('.cefware.com','');
+    console.log(newurl);
+    HTTP.get(newurl, {params: this.request.query}, function (e,r) {
+	if (!e) {
+	} else {
+	    console.log(e);
+	};
+    });
+
 
 }, {where:'server'});
